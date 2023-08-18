@@ -1,0 +1,50 @@
+.wrap-form {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap-form h3 {
+    margin-bottom: 30px;
+    font-size: 4rem;
+}
+
+.main-form {
+    width: 500px;
+}
+
+.form-item {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.5rem;
+}
+
+.form-item input {
+    font-size: 2rem;
+    padding: 5px;
+}
+
+.dropdown {
+    width: 223px;
+    height: 40px;
+    font-size: 2rem;
+    background-color: white;
+    color: black;
+}
+
+.comment-input {
+    width: 100%;
+}
+
+.comment-input textarea {
+    width: 223px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 1d00;
+    resize: vertical; /* Cho phép điều chỉnh độ cao theo chiều dọc */
+}
