@@ -3,14 +3,13 @@ import styles from './Feedback.module.scss';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Dropdown from '../Dropdown';
-import Select from 'react-select';
+import LoadingPopup from '../LoadingPopup';
 
 const cx = classNames.bind(styles);
-const satisfaction = [1, 2, 3, 4, 5];
 
-const apiUrlAIP = 'https://eldercare.cyclic.cloud/aip';
-const apiUrlGuardian = 'https://eldercare.cyclic.cloud/guardian';
+const apiUrlAIP = `https://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}/aip`;
+const apiUrlGuardian = `https://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}/guardian`;
+const apiUrlFeedback = `https://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}/feedback`;
 
 function Feedback() {
     const [feedback, setFeedback] = useState({
@@ -55,7 +54,7 @@ function Feedback() {
         e.preventDefault();
 
         axios
-            .post('https://eldercare.cyclic.cloud/feedback', feedback)
+            .post(apiUrlFeedback, feedback)
             .then((res) => {
                 // Call the callback function to trigger table update in DataViewAIP
                 // Reset the form fields
@@ -70,7 +69,7 @@ function Feedback() {
                     comment: '',
                     workTime: '',
                 });
-                console.log(res)
+                console.log(res);
             })
             .catch((err) => console.log(err));
     };
@@ -97,18 +96,18 @@ function Feedback() {
         setSelectedGuardian(selectedGuardianObject);
         setFeedback((prevFeedback) => ({
             ...prevFeedback,
-            'guardian': selectedGuardianObject._id,
+            guardian: selectedGuardianObject._id,
         }));
     };
 
-    console.log(feedback)
+    console.log(feedback);
 
     const handleCommentChange = (event) => {
         const newComment = event.target.value;
         setComment(newComment);
         setFeedback((prevFeedback) => ({
             ...prevFeedback,
-            'comment': newComment,
+            comment: newComment,
         }));
     };
 
@@ -127,7 +126,7 @@ function Feedback() {
         setSelectedAIP(selectedAIPObject);
         setFeedback((prevFeedback) => ({
             ...prevFeedback,
-            'aip': selectedAIPObject._id,
+            aip: selectedAIPObject._id,
         }));
     };
 
@@ -190,6 +189,7 @@ function Feedback() {
                         id="aip"
                         value={selectedAIP ? selectedAIP._id : ''}
                         onChange={handleAIPChange}
+                        style={{width:'220px', height:'36px' ,padding:'2px', fontSize:'18px'}}
                     >
                         {aips.map((aip, index) => (
                             <option key={index} value={aip._id}>
@@ -206,6 +206,7 @@ function Feedback() {
                         id="guardian"
                         value={selectedGuardian ? selectedGuardian._id : ''}
                         onChange={handleGuardianChange}
+                        style={{width:'220px', height:'36px' ,padding:'2px', fontSize:'18px'}}
                     >
                         {guardians.map((guardian, index) => (
                             <option key={index} value={guardian._id}>
@@ -224,6 +225,7 @@ function Feedback() {
                         id="satisfactionLevel"
                         value={levelFeedback}
                         onChange={handleLevelChange}
+                        style={{width:'220px', height:'36px' ,padding:'2px', fontSize:'18px'}}
                     >
                         {[1, 2, 3, 4, 5].map((level) => (
                             <option key={level} value={level}>
@@ -245,8 +247,9 @@ function Feedback() {
                     />
                 </div>
 
-                <button type="submit">Submit</button>
+                <button type="submit" style={{padding:'10px 20px', fontSize:'20px'}}>Submit</button>
             </form>
+            {loading && <LoadingPopup />}
         </div>
     );
 }
